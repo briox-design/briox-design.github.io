@@ -101,9 +101,9 @@ const offeringColors = {
 const offeringLogos = {
     briox: [
         { value: 'logo-briox.svg', label: 'Logo' },
-        { value: 'logo-briox-solo.svg', label: 'Logo (Solo Logomark)' },
-        { value: 'logo-briox-byra.svg', label: 'Logo (Byrå)' },
-        { value: 'logomark.svg', label: 'Logomark' },
+        { value: 'logo-briox-solo.svg', label: 'Briox Solo Logo' },
+        { value: 'logo-briox-byra.svg', label: 'Briox Byrå Logo' },
+        { value: 'logomark.svg', label: 'Logomark Only' },
     ],
     lerry: [
         { value: 'logo-lerry-ai.svg', label: 'Logo' },
