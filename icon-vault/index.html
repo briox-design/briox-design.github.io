@@ -54,6 +54,26 @@
   <!-- ── Main ───────────────────────────────────────────────── -->
   <main class="main">
 
+    <!-- Brand tabs -->
+    <nav class="brand-nav" id="brand-nav">
+      <button class="brand-tab" data-brand="briox">
+        Briox
+        <span class="brand-count" id="bc-briox">0</span>
+      </button>
+      <button class="brand-tab" data-brand="lerry">
+        Lerry.ai
+        <span class="brand-count" id="bc-lerry">0</span>
+      </button>
+      <button class="brand-tab" data-brand="edeklarera">
+        Edeklarera
+        <span class="brand-count" id="bc-edeklarera">0</span>
+      </button>
+      <button class="brand-tab" data-brand="generic">
+        Generic
+        <span class="brand-count" id="bc-generic">0</span>
+      </button>
+    </nav>
+
     <!-- Drop zone -->
     <div class="dropzone" id="dropzone">
       <div class="dz-icon">
@@ -64,7 +84,7 @@
         </svg>
       </div>
       <p class="dz-title">Drop SVG icons here</p>
-      <p class="dz-subtitle">or <span id="browse-link">browse files</span> to upload</p>
+      <p class="dz-subtitle">or <span id="browse-link">browse files</span> to upload · adding to <strong id="dz-brand-name">Generic</strong></p>
     </div>
 
     <input type="file" id="file-input" accept=".svg,image/svg+xml" multiple />
@@ -79,6 +99,18 @@
           </svg>
         </span>
         <input class="search-input" id="search-input" type="search" placeholder="Search icons…" autocomplete="off" />
+      </div>
+      <div class="tag-filter-wrap" id="tag-filter-wrap">
+        <button class="btn btn-outline btn-sm tag-filter-btn" id="tag-filter-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+          </svg>
+          <span id="tag-filter-label">Tags</span>
+          <svg class="tag-filter-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="tag-filter-menu" id="tag-filter-menu"></div>
       </div>
     </div>
 
@@ -110,6 +142,153 @@
 
 <!-- Toast container -->
 <div class="toast-container" id="toast-container"></div>
+
+<!-- ── Icon detail modal ───────────────────────────────────── -->
+<div id="modal-overlay" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true">
+  <div class="modal">
+
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">icon.svg</span>
+
+      <!-- ⋯ More actions dropdown -->
+      <div class="modal-menu-wrap" id="modal-menu-wrap">
+        <button class="btn btn-ghost modal-menu-btn" id="modal-menu-btn" aria-label="More actions">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="5" r="1" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+            <circle cx="12" cy="19" r="1" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="modal-menu" id="modal-menu">
+
+          <button class="modal-menu-item" id="modal-duplicate">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Duplicate
+          </button>
+
+          <div class="move-brand-wrap" id="move-brand-wrap">
+            <button class="modal-menu-item" id="modal-move-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="5 9 2 12 5 15"/>
+                <polyline points="9 5 12 2 15 5"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <line x1="12" y1="2" x2="12" y2="22"/>
+              </svg>
+              Move to Brand
+              <svg class="move-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="move-brand-list" id="move-brand-list"></div>
+          </div>
+
+          <hr class="modal-menu-sep" />
+
+          <button class="modal-menu-item modal-menu-item--danger" id="modal-delete">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+              <path d="M10 11v6"/><path d="M14 11v6"/>
+              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+            Delete
+          </button>
+
+        </div>
+      </div>
+
+      <button class="btn btn-ghost modal-close-btn" id="modal-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Preview -->
+      <div class="modal-preview" id="modal-preview"></div>
+
+      <!-- Controls -->
+      <div class="modal-controls">
+
+        <!-- 1. Filename -->
+        <div class="control-group">
+          <span class="control-label">Filename</span>
+          <div class="rename-row">
+            <input type="text" class="rename-input" id="modal-rename" spellcheck="false" />
+            <button class="btn btn-outline btn-sm" id="rename-save">Save</button>
+          </div>
+        </div>
+
+        <!-- 2. Tags -->
+        <div class="control-group">
+          <span class="control-label">Tags</span>
+          <div class="tags-input-wrap" id="tags-input-wrap">
+            <input type="text" class="tags-input" id="tags-input" placeholder="Add tag…" autocomplete="off" spellcheck="false" />
+          </div>
+        </div>
+
+        <!-- 3. Per-color overrides (populated by JS) -->
+        <div class="control-group">
+          <span class="control-label">Colors</span>
+          <div class="color-overrides-list" id="color-overrides-list"></div>
+        </div>
+
+        <!-- 3. Format -->
+        <div class="control-group">
+          <span class="control-label">Format</span>
+          <div class="format-tabs">
+            <button class="format-tab active" data-format="svg">SVG</button>
+            <button class="format-tab" data-format="png">PNG</button>
+          </div>
+        </div>
+
+        <!-- 4. PNG size (visible only when PNG selected) -->
+        <div class="control-group" id="png-size-group" style="display:none;">
+          <span class="control-label">Export size</span>
+          <select class="modal-select" id="png-size">
+            <option value="64">64 × 64 px</option>
+            <option value="128">128 × 128 px</option>
+            <option value="256">256 × 256 px</option>
+            <option value="512" selected>512 × 512 px</option>
+            <option value="1024">1024 × 1024 px</option>
+          </select>
+        </div>
+
+        <!-- 5. Actions -->
+        <div class="modal-actions">
+          <button class="btn btn-primary btn-md" id="modal-download">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download
+          </button>
+          <button class="btn btn-outline btn-md" id="modal-copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy to Clipboard
+          </button>
+        </div>
+
+        <!-- 6. File info -->
+        <div class="modal-file-info">
+          <span id="modal-file-size"></span>
+          <span>·</span>
+          <span id="modal-file-date"></span>
+        </div>
+
+      </div><!-- /.modal-controls -->
+    </div><!-- /.modal-body -->
+  </div><!-- /.modal -->
+</div><!-- /#modal-overlay -->
 
 <script src="app.js"></script>
 </body>
