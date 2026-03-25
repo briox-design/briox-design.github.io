@@ -42,13 +42,14 @@
       anchor.style.transform = `translate(${s.cx}px, ${s.cy}px)`;
     });
 
-    // Robot moves subtly in opposite direction (counter-parallax)
-    robotTx = active ? -normX * 8 : 0;
-    robotTy = active ? -normY * 5 : 0;
-    robotCx = lerp(robotCx, robotTx, 0.06);
-    robotCy = lerp(robotCy, robotTy, 0.06);
-    // Preserve the translateY(42%) base transform
-    robot.style.transform = `translateX(${robotCx}px) translateY(calc(42% + ${robotCy}px)) translateZ(0)`;
+    // Robot counter-parallax — desktop only
+    if (window.innerWidth > 640) {
+      robotTx = active ? -normX * 8 : 0;
+      robotTy = active ? -normY * 5 : 0;
+      robotCx = lerp(robotCx, robotTx, 0.06);
+      robotCy = lerp(robotCy, robotTy, 0.06);
+      robot.style.transform = `translateX(${robotCx}px) translateY(calc(42% + ${robotCy}px)) translateZ(0)`;
+    }
 
     requestAnimationFrame(tick);
   }
