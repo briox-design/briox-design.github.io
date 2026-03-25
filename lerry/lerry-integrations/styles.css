@@ -549,19 +549,25 @@ body::-webkit-scrollbar { display: none; }
     line-height: 1.65;
   }
 
+  /* ── Allow child scroll on mobile — robot has no translateY so nothing overflows ── */
+  .hero-section {
+    overflow: visible;
+  }
+
   /* ── Hero constellation: column layout ── */
   .hero-constellation {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    overflow: visible;
+    gap: 1rem;
   }
 
   /* ── Robot: visible, centered, no translateY offset ── */
   .hero-robot {
     position: relative;
     height: 32vh;
-    transform: none;
+    transform: none !important;
     opacity: 1;
     animation: none;
     order: 1;
@@ -572,23 +578,33 @@ body::-webkit-scrollbar { display: none; }
     display: flex;
     order: 2;
     overflow-x: auto;
+    overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0.75rem;
-    padding: 0.25rem 1.25rem 0.5rem;
-    width: 100vw;
-    margin-left: calc(-1.25rem);
+    padding: 0.5rem 1.25rem;
+    width: 100%;
   }
 
   .chip-strip::-webkit-scrollbar { display: none; }
 
-  /* ── Chips: static flow items in the carousel ── */
-  .chip-anchor {
-    position: static;
+  /* ── Chips: static flow items, reset all absolute positioning ── */
+  .chip-anchor,
+  .chip-fortnox,
+  .chip-visma,
+  .chip-briox,
+  .chip-monitor,
+  .chip-accountec {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    translate: none !important;
+    transform: none !important;
     flex: 0 0 auto;
     scroll-snap-align: start;
-    translate: none;
     will-change: auto;
   }
 
