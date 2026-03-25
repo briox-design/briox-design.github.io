@@ -79,9 +79,10 @@ function activateSection(el) {
 }
 
 function initObserver() {
+  const threshold = window.innerWidth <= 640 ? 0.3 : 0.6;
   const observer = new IntersectionObserver(
     entries => entries.forEach(e => { if (e.isIntersecting) activateSection(e.target); }),
-    { root: null, threshold: 0.6 }
+    { root: null, threshold }
   );
   sections.forEach(s => observer.observe(s));
 }

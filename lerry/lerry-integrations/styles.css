@@ -493,3 +493,136 @@ body::-webkit-scrollbar { display: none; }
   font-weight: 300;
   text-align: center;
 }
+
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .integrations-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-left {
+    display: none;
+  }
+
+  .integration-section {
+    padding: 3rem 2rem;
+  }
+
+  .request-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .request-desc {
+    max-width: 100%;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+
+  /* Body: add side padding to container */
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  /* ── Hero text ── */
+  .hero-text {
+    padding: 2.25rem 1.25rem 0;
+  }
+
+  .hero-heading {
+    font-size: 2.25rem;
+  }
+
+  .hero-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  /* ── Robot ── */
+  .hero-robot {
+    height: 36vh;
+  }
+
+  @keyframes robotIn {
+    from { opacity: 0; transform: translateY(52%); }
+    to   { opacity: 1; transform: translateY(42%); }
+  }
+
+  /* ── Logo chips — tighter positions & smaller ── */
+  .logo-chip {
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+
+  .logo-chip img          { height: 22px; }
+  .chip-fortnox .logo-chip img { height: 18px; }
+  .chip-briox   .logo-chip img { height: 26px; }
+  .chip-monitor .logo-chip img { height: 26px; }
+
+  .chip-fortnox   { top: 13%; }
+  .chip-visma     { top: 36%; left: 1%; }
+  .chip-briox     { top: 36%; right: 1%; }
+  .chip-monitor   { bottom: 30%; left: 1%; }
+  .chip-accountec { bottom: 30%; right: 1%; }
+
+  /* ── Hero banner ── */
+  .hero-banner {
+    height: auto;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .hero-banner p {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* ── Integration sections ── */
+  .integration-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 3rem 1.25rem;
+    justify-content: flex-start;
+    padding-top: 4rem;
+  }
+
+  .integration-title {
+    font-size: 1.2rem;
+  }
+
+  /* ── Request section ── */
+  .request-section {
+    padding: 4rem 0;
+  }
+
+  .request-heading {
+    font-size: 1.875rem;
+  }
+
+  .request-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .request-btn {
+    width: 100%;
+  }
+}
+
+/* ── Small phones ── */
+@media (max-width: 400px) {
+  /* Hide the two bottom chips to avoid overlap on very narrow screens */
+  .chip-monitor,
+  .chip-accountec {
+    display: none;
+  }
+
+  .chip-visma  { top: 42%; }
+  .chip-briox  { top: 42%; }
+}
