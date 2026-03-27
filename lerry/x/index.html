@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortnox Integration – Lerry.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:        #1565C0;
+      --blue-mid:    #1976D2;
+      --blue-light:  #E3F0FF;
+      --blue-xlight: #F0F7FF;
+      --navy:        #0D1B3E;
+      --text:        #1A1A2E;
+      --muted:       #64748B;
+      --border:      #E2E8F0;
+      --white:       #FFFFFF;
+      --green:       #16A34A;
+      --green-light: #DCFCE7;
+      --radius:      12px;
+      --radius-lg:   20px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      height: 64px;
+      gap: 32px;
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      flex: 1;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+    .nav-phone { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .btn-ghost {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      background: none;
+      border: 1.5px solid var(--blue);
+      border-radius: 8px;
+      padding: 7px 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-ghost:hover { background: var(--blue-light); }
+    .btn-primary {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--blue);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-primary:hover { background: #1255a8; }
+
+    /* ─── BREADCRUMB ─── */
+    .breadcrumb-bar {
+      background: var(--blue-xlight);
+      border-bottom: 1px solid #DBEAFE;
+      padding: 10px 80px;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb a { color: var(--blue); text-decoration: none; font-weight: 500; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { color: #CBD5E1; font-size: 12px; }
+    .breadcrumb-current { color: var(--text); font-weight: 600; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 64px 80px 56px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 64px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge::before { content: '●'; font-size: 8px; }
+    .integration-logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .integration-logo {
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+    .integration-logo svg, .integration-logo img { height: 40px; }
+    .logo-connector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94A3B8;
+      font-size: 13px;
+    }
+    .logo-connector-line { width: 32px; height: 1.5px; background: var(--border); }
+    .lerry-logo-sm {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--navy);
+    }
+    .lerry-logo-sm span { color: var(--blue); }
+
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-hero-primary {
+      background: var(--blue);
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-hero-primary:hover { background: #1255a8; transform: translateY(-1px); }
+    .btn-hero-secondary {
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap .2s;
+    }
+    .btn-hero-secondary:hover { gap: 10px; }
+
+    /* Hero visual card */
+    .hero-visual {
+      background: var(--blue-xlight);
+      border: 1px solid #DBEAFE;
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero-visual-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .flow-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .flow-icon.blue { background: var(--blue); color: white; }
+    .flow-icon.light { background: white; border: 1px solid var(--border); }
+    .flow-text { font-size: 13px; color: var(--text); font-weight: 500; }
+    .flow-text small { display: block; color: var(--muted); font-size: 11px; font-weight: 400; }
+    .flow-arrow { color: var(--blue); font-size: 14px; margin: 0 auto; }
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      padding-top: 8px;
+      border-top: 1px solid #DBEAFE;
+      margin-top: 4px;
+    }
+    .stat-item { flex: 1; text-align: center; }
+    .stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--blue);
+    }
+    .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    /* ─── WHAT YOU GET ─── */
+    .section { padding: 72px 80px; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: -.5px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 48px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .feature-card:hover { box-shadow: 0 8px 32px rgba(21,101,192,.08); transform: translateY(-2px); }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .feature-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .feature-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── SECTION DIVIDER ─── */
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 0 80px; }
+
+    /* ─── HOW TO ACTIVATE ─── */
+    .activate-section {
+      padding: 72px 80px;
+      background: var(--blue-xlight);
+      border-top: 1px solid #DBEAFE;
+      border-bottom: 1px solid #DBEAFE;
+    }
+    .activate-inner { max-width: 1200px; margin: 0 auto; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 20px);
+      right: calc(12.5% + 20px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue) 0%, #90CAF9 100%);
+      z-index: 0;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 0 0 4px var(--blue-xlight), 0 0 0 6px #DBEAFE;
+    }
+    .step-num.done { background: var(--green); }
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .step-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+    .step-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+      margin-top: 8px;
+    }
+
+    /* ─── REQUIREMENTS ─── */
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .req-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .req-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .req-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .req-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--text);
+    }
+    .req-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .req-x {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #FEE2E2;
+      color: #DC2626;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── FAQ ─── */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 20px;
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background .15s;
+    }
+    .faq-q:hover { background: var(--blue-xlight); }
+    .faq-q.open { background: var(--blue-xlight); color: var(--blue); }
+    .faq-chevron { font-size: 18px; transition: transform .2s; color: var(--muted); flex-shrink: 0; }
+    .faq-q.open .faq-chevron { transform: rotate(180deg); color: var(--blue); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .2s;
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      padding: 0 20px;
+    }
+    .faq-a.open { max-height: 200px; padding: 0 20px 18px; }
+
+    /* ─── RELATED INTEGRATIONS ─── */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .related-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .related-card:hover { box-shadow: 0 8px 32px rgba(21,101,192,.08); transform: translateY(-2px); }
+    .related-logo {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .related-logo-placeholder {
+      background: var(--blue-xlight);
+      border-radius: 8px;
+      width: 80px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--blue);
+    }
+    .related-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+    }
+    .related-card-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .related-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: auto;
+    }
+
+    /* ─── CTA BANNER ─── */
+    .cta-banner {
+      background: var(--navy);
+      padding: 64px 80px;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: white;
+      letter-spacing: -.5px;
+      margin-bottom: 12px;
+    }
+    .cta-banner p {
+      color: #94A3B8;
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+    .cta-banner-actions { display: flex; gap: 12px; justify-content: center; }
+    .btn-cta-white {
+      background: white;
+      color: var(--navy);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-cta-white:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-cta-outline {
+      background: transparent;
+      color: white;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      border: 1.5px solid rgba(255,255,255,.3);
+      border-radius: 10px;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s;
+    }
+    .btn-cta-outline:hover { border-color: white; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 48px 80px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+    .footer-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: white;
+      letter-spacing: -.5px;
+    }
+    .footer-logo span { color: #60A5FA; }
+    .footer-tagline { font-size: 12.5px; color: #64748B; line-height: 1.5; }
+    .footer-col h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 13px; color: #64748B; text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: #94A3B8; }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 24px auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy { font-size: 12px; color: #475569; }
+    .footer-social { display: flex; gap: 12px; }
+    .social-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .social-btn:hover { background: rgba(255,255,255,.12); }
+
+    /* ─── FORTNOX LOGO MOCK ─── */
+    .fortnox-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      color: #00833E;
+      letter-spacing: -1px;
+    }
+
+    /* Sidebar sticky on desktop */
+    @media (min-width: 1024px) {
+      .toc-sidebar {
+        position: sticky;
+        top: 80px;
+        height: fit-content;
+      }
+    }
+
+    .page-layout { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="/" class="nav-logo">Lerry<span>.ai</span></a>
+  <ul class="nav-links">
+    <li><a href="/produkt">Produkt</a></li>
+    <li><a href="/priser">Priser</a></li>
+    <li><a href="/om-lerry">Om Lerry</a></li>
+  </ul>
+  <div class="nav-actions">
+    <span class="nav-phone">☎ 08 000 000 47</span>
+    <a href="/logga-in" class="btn-ghost">Logga in</a>
+    <a href="/testa" class="btn-primary">Testa 7 dagar gratis</a>
+  </div>
+</nav>
+
+<!-- ─── BREADCRUMB ─── -->
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb page-layout" style="padding-top:0;padding-bottom:0;max-width:1200px;margin:0 auto;">
+    <a href="/">Hem</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="/integrationer">Integrationer</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Fortnox</span>
+  </nav>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="page-layout" style="padding-top:0;padding-bottom:0;">
+<section class="hero" style="padding-left:0;padding-right:0;">
+  <div class="hero-content">
+    <div class="hero-badge">Aktiv integration</div>
+
+    <div class="integration-logo-wrapper">
+      <div class="integration-logo">
+        <span class="fortnox-logo">Fortnox</span>
+      </div>
+      <div class="logo-connector">
+        <div class="logo-connector-line"></div>
+        <span style="font-size:18px;">🤝</span>
+        <div class="logo-connector-line"></div>
+      </div>
+      <span class="lerry-logo-sm">Lerry<span>.ai</span></span>
+    </div>
+
+    <h1>Smarta analyser och<br /><em>insikter direkt</em> från<br />Fortnox</h1>
+    <p class="hero-desc">
+      Koppla ihop Lerry.ai med Fortnox på några minuter. Få automatiserade bokföringskontroller, 
+      realtidsanalyser och AI-drivna insikter — utan att lämna Fortnox.
+    </p>
+    <div class="hero-ctas">
+      <a href="/testa" class="btn-hero-primary">Aktivera integrationen →</a>
+      <a href="#how-it-works" class="btn-hero-secondary">Se hur det fungerar ↓</a>
+    </div>
+  </div>
+
+  <!-- Visual card -->
+  <div class="hero-visual">
+    <div class="hero-visual-title">Så flödar din data</div>
+    <div class="flow-step">
+      <div class="flow-icon light">🏢</div>
+      <div class="flow-text">
+        Din Fortnox-data
+        <small>Fakturor, verifikationer, konton</small>
+      </div>
+    </div>
+    <div class="flow-arrow" style="text-align:center; font-size:20px; padding: 0 8px;">⟵ synkroniseras automatiskt ⟶</div>
+    <div class="flow-step">
+      <div class="flow-icon blue">🤖</div>
+      <div class="flow-text">
+        Lerry.ai analyserar
+        <small>AI granskar, hittar avvikelser, skapar insikter</small>
+      </div>
+    </div>
+    <div class="flow-arrow" style="text-align:center; font-size:20px; padding: 0 8px;">↓</div>
+    <div class="flow-step">
+      <div class="flow-icon" style="background:#EFF6FF; font-size:16px;">📊</div>
+      <div class="flow-text">
+        Du får actionable insikter
+        <small>Rapporter, varningar och förslag i realtid</small>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">2 min</div>
+        <div class="stat-label">Aktiveringstid</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Automatisk sync</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Realtid</div>
+        <div class="stat-label">Datauppdatering</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── FEATURES ─── -->
+<div style="border-top: 1px solid var(--border); background: #FAFBFF;">
+<section class="section" id="how-it-works">
+  <div class="section-label">Vad du får</div>
+  <h2 class="section-title">Allt du behöver från Fortnox-integrationen</h2>
+  <p class="section-sub">En koppling som inte bara skickar data — den omvandlar den till värde du faktiskt kan använda.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <div class="feature-title">Automatisk datasynkronisering</div>
+      <p class="feature-desc">Verifikationer, konton och transaktioner hämtas löpande från Fortnox utan manuell export. Alltid uppdaterat.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-title">AI-driven bokföringsgranskning</div>
+      <p class="feature-desc">Lerry identifierar avvikelser, felkonteringar och momsproblem i din Fortnox-data innan de blir ett problem.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📈</div>
+      <div class="feature-title">Smarta affärsanalyser</div>
+      <p class="feature-desc">Ställ frågor om din ekonomi i naturligt språk och få svar direkt baserade på din Fortnox-historik.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Realtidsvarningar</div>
+      <p class="feature-desc">Få notiser när ovanliga poster, stora avvikelser eller saknade verifikationer dyker upp — direkt när det händer.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Automatiserade rapporter</div>
+      <p class="feature-desc">Schemalägg månads- och kvartalsbokslut som genereras automatiskt och är redo att skickas till klient eller styrelse.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Säker OAuth-anslutning</div>
+      <p class="feature-desc">Anslutningen sker via Fortnox officiella API med OAuth 2.0. Inga lösenord delas — din data är alltid skyddad.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ─── HOW TO ACTIVATE ─── -->
+<div class="activate-section">
+  <div class="activate-inner">
+    <div class="section-label" style="display:block;margin-bottom:12px;">Kom igång</div>
+    <h2 class="section-title">Aktivera Fortnox på 4 enkla steg</h2>
+    <p class="section-sub" style="margin-bottom:56px;">Ingen teknisk kunskap behövs. Du är igång på under 5 minuter.</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Skapa ett konto</div>
+        <p class="step-desc">Starta din 7-dagars gratis provperiod på Lerry.ai. Inget kreditkort krävs.</p>
+        <span class="step-note">✓ Gratis att börja</span>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Gå till Integrationer</div>
+        <p class="step-desc">I din Lerry.ai-dashboard, navigera till <strong>Inställningar → Integrationer → Fortnox</strong>.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Auktorisera i Fortnox</div>
+        <p class="step-desc">Klicka på <em>Anslut Fortnox</em> — du skickas till Fortnox för säker inloggning och godkännande via OAuth.</p>
+        <span class="step-note">🔒 Säker OAuth 2.0</span>
+      </div>
+      <div class="step">
+        <div class="step-num done">✓</div>
+        <div class="step-title">Klart! Data synkroniseras</div>
+        <p class="step-desc">Lerry.ai börjar direkt hämta din data. Första analysen är redo inom minuter.</p>
+        <span class="step-note">⚡ Realtidssynk aktiv</span>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 48px;">
+      <a href="/testa" class="btn-hero-primary">Aktivera Fortnox-integrationen →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── REQUIREMENTS ─── -->
+<section class="section">
+  <div class="section-label">Krav & Kompatibilitet</div>
+  <h2 class="section-title">Vad behövs för att komma igång?</h2>
+  <p class="section-sub" style="margin-bottom:36px;">Kontrollera att du uppfyller kraven nedan innan du aktiverar integrationen.</p>
+
+  <div class="requirements-grid">
+    <div class="req-card">
+      <div class="req-card-title">✅ Du behöver</div>
+      <ul class="req-list">
+        <li>
+          <span class="req-check">✓</span>
+          <span>Ett aktivt Fortnox-konto (alla versioner stöds)</span>
+        </li>
+        <li>
+          <span class="req-check">✓</span>
+          <span>Administratörsbehörighet i Fortnox för att godkänna API-åtkomst</span>
+        </li>
+        <li>
+          <span class="req-check">✓</span>
+          <span>Ett Lerry.ai-konto (Basic-plan eller högre)</span>
+        </li>
+        <li>
+          <span class="req-check">✓</span>
+          <span>Internetåtkomst — ingen installation eller plugin krävs</span>
+        </li>
+      </ul>
+    </div>
+    <div class="req-card">
+      <div class="req-card-title">📦 Inkluderade datakällor</div>
+      <ul class="req-list">
+        <li><span class="req-check">✓</span><span>Verifikationer och konteringar</span></li>
+        <li><span class="req-check">✓</span><span>Konton och kontoplan (BAS)</span></li>
+        <li><span class="req-check">✓</span><span>Fakturor (kund- och leverantörsfakturor)</span></li>
+        <li><span class="req-check">✓</span><span>Momsrapporter och deklarationsunderlag</span></li>
+        <li><span class="req-check">✓</span><span>Resultat- och balansräkning</span></li>
+        <li>
+          <span class="req-x">✗</span>
+          <span style="color:var(--muted);">Lönedata (kräver Fortnox Lön-tillägg)</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- ─── FAQ ─── -->
+<section class="section">
+  <div class="section-label">Vanliga frågor</div>
+  <h2 class="section-title">Frågor om Fortnox-integrationen</h2>
+  <p class="section-sub" style="margin-bottom:36px;">Hittar du inte svaret du söker? <a href="/kontakt" style="color:var(--blue);">Kontakta oss</a> så hjälper vi dig.</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Är det säkert att koppla Lerry.ai till Fortnox?
+        <span class="faq-chevron">⌄</span>
+      </button>
+      <div class="faq-a">
+        Ja, absolut. Anslutningen sker via Fortnox officiella OAuth 2.0-flöde — samma metod som alla auktoriserade tredjepartsappar använder. Vi lagrar aldrig ditt Fortnox-lösenord, och du kan återkalla åtkomsten när som helst direkt från Fortnox.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Hur ofta synkroniseras datan från Fortnox?
+        <span class="faq-chevron">⌄</span>
+      </button>
+      <div class="faq-a">
+        Data synkroniseras i realtid varje gång en ny transaktion eller verifikation skapas i Fortnox. Du kan också trigga en manuell synkronisering från Lerry.ai när som helst.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Kan jag koppla flera Fortnox-bolag till samma Lerry.ai-konto?
+        <span class="faq-chevron">⌄</span>
+      </button>
+      <div class="faq-a">
+        Ja, på Business-planen och uppåt kan du koppla och hantera flera bolag under en och samma Lerry.ai-panel. Perfekt för redovisningsbyråer med flera kunder i Fortnox.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Vad händer med min historiska Fortnox-data?
+        <span class="faq-chevron">⌄</span>
+      </button>
+      <div class="faq-a">
+        Vid aktivering hämtar Lerry.ai upp till 2 års historisk data från Fortnox för att kunna göra trendanalyser och jämförelser. Du väljer själv hur långt tillbaka i inställningarna.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Måste jag ha Fortnox for Accountants eller räcker det med ett vanligt konto?
+        <span class="faq-chevron">⌄</span>
+      </button>
+      <div class="faq-a">
+        Alla versioner av Fortnox stöds — från Fortnox Start till Fortnox for Accountants. Det enda kravet är att ditt konto har API-åtkomst aktiverat, vilket ingår i alla betalplaner.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RELATED ─── -->
+<div style="background: var(--blue-xlight); border-top: 1px solid #DBEAFE; border-bottom: 1px solid #DBEAFE;">
+<section class="section">
+  <div class="section-label">Fler integrationer</div>
+  <h2 class="section-title">Utforska andra kopplingar</h2>
+  <p class="section-sub" style="margin-bottom:36px;">Lerry.ai fungerar med alla stora affärssystem. Kombinera integrationer för full täckning.</p>
+
+  <div class="related-grid">
+    <a href="/integrationer/monitor-erp" class="related-card">
+      <div class="related-logo">
+        <div class="related-logo-placeholder">Monitor ERP</div>
+      </div>
+      <div class="related-card-title">Monitor ERP</div>
+      <p class="related-card-desc">Automatiserad bokföringskontroll i realtid för Monitor-användare.</p>
+      <span class="related-link">Se integration →</span>
+    </a>
+    <a href="/integrationer/spiris" class="related-card">
+      <div class="related-logo">
+        <div class="related-logo-placeholder" style="background:#FFF3E0;color:#E65100;">Spiris</div>
+      </div>
+      <div class="related-card-title">Spiris</div>
+      <p class="related-card-desc">Löpande analys av din bokföringsdata direkt från Spiris affärssystem.</p>
+      <span class="related-link">Se integration →</span>
+    </a>
+    <a href="/integrationer/accountec" class="related-card">
+      <div class="related-logo">
+        <div class="related-logo-placeholder" style="background:#E8F5E9;color:#2E7D32;">Accountec</div>
+      </div>
+      <div class="related-card-title">Accountec</div>
+      <p class="related-card-desc">Bolagsinsikter och realtidsrapporter direkt i Accountec-miljön.</p>
+      <span class="related-link">Se integration →</span>
+    </a>
+  </div>
+</section>
+</div>
+
+<!-- ─── CTA BANNER ─── -->
+<div class="cta-banner">
+  <h2>Redo att aktivera Fortnox?</h2>
+  <p>Kom igång gratis — ingen teknisk kunskap eller kreditkort krävs.</p>
+  <div class="cta-banner-actions">
+    <a href="/testa" class="btn-cta-white">Testa 7 dagar gratis</a>
+    <a href="/kontakt" class="btn-cta-outline">Prata med oss</a>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">Lerry<span>.ai</span></span>
+      <p class="footer-tagline">AI-driven bokföringsassistent för moderna svenska företag.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Produkt</h4>
+      <ul>
+        <li><a href="#">Funktioner</a></li>
+        <li><a href="#">Priser</a></li>
+        <li><a href="#">Integrationer</a></li>
+        <li><a href="#">Säkerhet</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resurser</h4>
+      <ul>
+        <li><a href="#">Hjälpcenter</a></li>
+        <li><a href="#">API-dokumentation</a></li>
+        <li><a href="#">Statusöversikt</a></li>
+        <li><a href="#">Nyheter</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Företag</h4>
+      <ul>
+        <li><a href="#">Om Lerry.ai</a></li>
+        <li><a href="#">Kontakt oss</a></li>
+        <li><a href="#">Karriär</a></li>
+        <li><a href="#">Integritetspolicy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2024 Lerry.ai. Alla rättigheter förbehållna.</span>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-q.open').forEach(q => {
+      q.classList.remove('open');
+      q.nextElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
